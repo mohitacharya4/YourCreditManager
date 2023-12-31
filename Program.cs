@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WazeCredit.Data;
+using WazeCredit.Middleware;
 using WazeCredit.Service;
+using WazeCredit.Service.LifeTimeExample;
 using WazeCredit.Utility.AppSettingsClasses;
 using WazeCredit.Utility.DI_Config;
 
@@ -28,6 +30,10 @@ namespace WazeCredit
 
             builder.Services.AddAppSettingsConfig(builder.Configuration);
 
+            builder.Services.AddTransient<TransientService>();
+            builder.Services.AddScoped<ScopedService>();
+            builder.Services.AddSingleton<SingletonService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -48,6 +54,8 @@ namespace WazeCredit
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<CustomMiddleware>();
 
             app.MapControllerRoute(
                 name: "default",
