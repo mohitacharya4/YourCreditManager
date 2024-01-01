@@ -30,6 +30,10 @@ namespace WazeCredit
 
             builder.Services.AddAppSettingsConfig(builder.Configuration);
 
+            builder.Services.AddScoped<IValidationChecker, AddressValidationChecker>();
+            builder.Services.AddScoped<IValidationChecker, CreditValidationChecker>();
+            builder.Services.AddScoped<ICreditValidator, CreditValidator>();
+
             builder.Services.AddTransient<TransientService>();
             builder.Services.AddScoped<ScopedService>();
             builder.Services.AddSingleton<SingletonService>();
